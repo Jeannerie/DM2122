@@ -122,6 +122,19 @@ void Scene2::Update(double dt)
 	rotateAngle += (float)(10 * dt);
 	translateX += (float)(10 * dt);
 	scaleAll += (float)(2 * dt);
+
+	if (translateX > 40)
+		translateX = -1;
+	else if (translateX < -40)
+		translateDir = 1;
+	if (rotateAngle > 360)
+		rotateAngle = -1;
+	else if (rotateAngle < 0)
+		rotateAngle = 1;
+	if (scaleAll > 10)
+		scaleAll = -1;
+	else if (scaleAll < 1)
+		scaleAll = 1;
 }
 
 void Scene2::Render()

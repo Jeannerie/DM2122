@@ -25,8 +25,8 @@ public:
 	MS();
 	~MS();
 	const Mtx44& Top() const;
-	void PopMatrix();
-	void PushMatrix();
+	void PopMatrix(); //closing of a set
+	void PushMatrix(); //starting of a set
 	void Clear();
 	void LoadIdentity();
 	void LoadMatrix(const Mtx44 &matrix);
