@@ -129,41 +129,87 @@ void Scene5::Render()
 	//glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &mvp.a[0]);
 	//meshList[GEO_CUBE]->Render();
 
+	//earth
 	modelStack.PushMatrix();
-	modelStack.Translate(0, 0, 0);
 	modelStack.Rotate(rotateAngle, 0, 1, 0);
-	modelStack.Scale(1, 1, 1);
+	modelStack.Translate(22, 10, 0);
+	modelStack.Scale(0.5, 0.5, 0.5);
 	mvp = projectionStack.Top() * viewStack.Top() * modelStack.Top();
 	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &mvp.a[0]);
-	meshList[GEO_CUBE]->Render();
+	meshList[GEO_SPHERE]->Render();
 	modelStack.PopMatrix();
 
+	//earth
 	modelStack.PushMatrix();
-	modelStack.Rotate(rotateAngle, 0, 1, 0);
-	modelStack.Translate(2, 0, 0);
-	modelStack.Scale(1, 1, 1);
+	modelStack.Rotate(-rotateAngle, 0, 1, 0);
+	modelStack.Translate(-22, 0, 0);
+	modelStack.Scale(0.5, 0.5, 0.5);
 	mvp = projectionStack.Top() * viewStack.Top() * modelStack.Top();
 	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &mvp.a[0]);
-	meshList[GEO_CUBE]->Render();
+	meshList[GEO_SPHERE]->Render();
 	modelStack.PopMatrix();
 
+	//earth
 	modelStack.PushMatrix();
 	modelStack.Rotate(rotateAngle, 0, 1, 0);
-	modelStack.Translate(-2, 0, 0);
-	modelStack.Scale(1, 1, 1);
+	modelStack.Translate(30, 0, 0);
+	modelStack.Scale(0.2, 0.2, 0.2);
 	mvp = projectionStack.Top() * viewStack.Top() * modelStack.Top();
 	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &mvp.a[0]);
-	meshList[GEO_CIRCLE]->Render();
+	meshList[GEO_SPHERE]->Render();
 	modelStack.PopMatrix();
 
+	//earth
 	modelStack.PushMatrix();
 	modelStack.Rotate(rotateAngle, 0, 1, 0);
-	modelStack.Translate(-5, 0, 0);
+	modelStack.Translate(-22, 0, 0);
 	modelStack.Scale(1, 1, 1);
 	mvp = projectionStack.Top() * viewStack.Top() * modelStack.Top();
 	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &mvp.a[0]);
 	meshList[GEO_SPHERE]->Render();
 	modelStack.PopMatrix();
+	
+	// square
+	modelStack.PushMatrix();
+	modelStack.Rotate(rotateAngle + 90, 0, 1, 0);
+	modelStack.Translate(12, 0, 0);
+	modelStack.Scale(2, 2, 2);
+	mvp = projectionStack.Top() * viewStack.Top() * modelStack.Top();
+	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &mvp.a[0]);
+	meshList[GEO_CUBE]->Render();
+	modelStack.PopMatrix();
+	
+	// ring
+	modelStack.PushMatrix();
+	modelStack.Rotate(rotateAngle + 90, 0, 1, 0);
+	modelStack.Translate(12, 0, 0);
+	modelStack.Scale(0.4, 0.6, 0.4);
+	mvp = projectionStack.Top() * viewStack.Top() * modelStack.Top();
+	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &mvp.a[0]);
+	meshList[GEO_CIRCLE]->Render();
+	modelStack.PopMatrix();
+
+	//earth
+	modelStack.PushMatrix();
+	modelStack.Rotate(rotateAngle, 0, 1, 0);
+	modelStack.Translate(0, 0, 0);
+	modelStack.Scale(1, 1, 1);
+	mvp = projectionStack.Top() * viewStack.Top() * modelStack.Top();
+	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &mvp.a[0]);
+	meshList[GEO_SPHERE]->Render();
+	
+
+	// ring
+	modelStack.PushMatrix();
+	modelStack.Translate(-22, 0, 0);
+	modelStack.Scale(2, 2, 1);
+	mvp = projectionStack.Top() * viewStack.Top() * modelStack.Top();
+	glUniformMatrix4fv(m_parameters[U_MVP], 1, GL_FALSE, &mvp.a[0]);
+	meshList[GEO_CIRCLE]->Render();
+	modelStack.PopMatrix();
+	modelStack.PopMatrix();
+
+	
 }
 
 void Scene5::Exit()

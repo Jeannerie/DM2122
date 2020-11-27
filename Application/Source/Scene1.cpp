@@ -45,17 +45,24 @@ void Scene1::Init()
 	//};
 	// set the current active buffer
 
-	static const GLfloat vertex_buffer_data_1[] = {
-		-0.15f, 0.25f, 0.0f,
-		0.15f, 0.25f, 0.0f,
-		-0.25f, 0.10f, 0.0f,
-		0.25f, 0.10f, 0.0f,
-		-0.25f, -0.1f, 0.0f,
-		0.25f, -0.1f, 0.0f,
-		-0.15f, -0.25f, 0.0f,
-		0.15f, -0.25f, 0.0f,
-	};
+	///*static const GLfloat vertex_buffer_data_1[] = {
+	//	-0.15f, 0.25f, 0.0f,
+	//	0.15f, 0.25f, 0.0f,
+	//	-0.25f, 0.10f, 0.0f,
+	//	0.25f, 0.10f, 0.0f,
+	//	-0.25f, -0.1f, 0.0f,
+	//	0.25f, -0.1f, 0.0f,
+	//	-0.15f, -0.25f, 0.0f,
+	//	0.15f, -0.25f, 0.0f,
+	//};*/ *coordinates for octagan
 	
+	static const GLfloat vertex_buffer_data_1[] = {
+		-0.25f, 0.0f, 0.0f,
+		0.0f, 0.35f, 0.0f,
+		0.25, 0.0f, 0.25f,
+		0.0f,-0.35f, 0.0f,
+		-0.25f, 0.0f, 0.25f,
+	};
 
 	glBindBuffer(GL_ARRAY_BUFFER, m_vertexBuffer[GEO_TRIANGLE_1]);
 	// TRANSFER VERTICES TO OPENGL
@@ -68,9 +75,6 @@ void Scene1::Init()
 	//	0.0f, 0.0f, 0.7f, //color of vertex 2
 	//};
 	static const GLfloat color_buffer_data_1[] = {
-		1.0f, 0.0f, 0.0f,
-		1.0f, 0.0f, 0.0f,
-		1.0f, 0.0f, 0.0f,
 		1.0f, 0.0f, 0.0f,
 		1.0f, 0.0f, 0.0f,
 		1.0f, 0.0f, 0.0f,
