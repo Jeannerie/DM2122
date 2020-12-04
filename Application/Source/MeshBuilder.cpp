@@ -3,6 +3,7 @@
 #include <GL\glew.h>
 #include <vector>
 #include <valarray>
+#include "Vertex.h"
 using namespace std;
 
 /******************************************************************************/
@@ -236,20 +237,21 @@ float sphereZ(float phi, float theta)
 Mesh* MeshBuilder::GenerateSphere(const std::string& meshName, Color color, unsigned numStack, unsigned numSlice, float radius)
 {
 	Vertex v;
+	v.color = color;
 	std::vector<Vertex> vertex_buffer_data;
 	std::vector<GLuint> index_buffer_data;
 
 	float degreePerStack = 180.f / numStack;
 	float degreePerSlice = 360.f / numSlice;
 
-	for (unsigned stack = 0; stack < numStack + 1; ++stack)
+	for (unsigned stack = 0; stack < numStack + 1; ++stack) //stack //replace with 180 for sphere
 	{
-		float phi = -90 + stack * degreePerStack;
-		for (unsigned slice = 0; slice < numSlice + 1; ++slice)
+		float phi = -90.f + stack * degreePerStack;
+		for (unsigned slice = 0; slice < numSlice + 1; ++slice) //slice
 		{
 			float theta = slice * degreePerSlice;
 			v.pos.Set(radius * sphereX(phi, theta), radius * sphereY(phi, theta), radius * sphereZ(phi, theta));
-			v.color = color;
+			v.normal.Set(sphereX(phi, theta), sphereY(phi, theta), sphereZ(phi, theta));
 			vertex_buffer_data.push_back(v);
 		}
 	}
@@ -261,6 +263,7 @@ Mesh* MeshBuilder::GenerateSphere(const std::string& meshName, Color color, unsi
 			index_buffer_data.push_back((numSlice + 1) * (stack + 1) + slice + 0);
 		}
 	}
+
 	Mesh* mesh = new Mesh(meshName);
 
 	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertexBuffer);

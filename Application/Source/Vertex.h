@@ -1,3 +1,4 @@
+#include <Vector3.h>
 #ifndef VERTEX_H
 #define VERTEX_H
 
@@ -17,6 +18,7 @@ struct Vertex
 {
 	Position pos;
 	Color color;
+	Vector3 normal;
 };
 
 #endif

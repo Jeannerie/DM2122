@@ -2,7 +2,7 @@
 #define MESH_H
 
 #include <string>
-
+#include "Material.h"
 /******************************************************************************/
 /*!
 		Class Mesh:
@@ -28,6 +28,8 @@ public:
 	unsigned vertexBuffer;
 	unsigned indexBuffer;
 	unsigned indexSize;
+
+	Material material;
 };
 
 #endif
