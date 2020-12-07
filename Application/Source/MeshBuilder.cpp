@@ -47,8 +47,8 @@ Mesh* MeshBuilder::GenerateAxes(const std::string &meshName, float lengthX, floa
 
 	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertexBuffer);
 	glBufferData(GL_ARRAY_BUFFER, vertex_buffer_data.size() * sizeof(Vertex), &vertex_buffer_data[0], GL_STATIC_DRAW);
-	glBindBuffer(GL_ARRAY_BUFFER, mesh->indexBuffer);
-	glBufferData(GL_ARRAY_BUFFER, index_buffer_data.size() * sizeof(GLuint), &index_buffer_data[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indexBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_buffer_data.size() * sizeof(GLuint), &index_buffer_data[0], GL_STATIC_DRAW);
 
 	mesh->indexSize = index_buffer_data.size();
 	mesh->mode = Mesh::DRAW_LINES;
@@ -75,10 +75,10 @@ Mesh* MeshBuilder::GenerateQuad(const std::string &meshName, Color color, float 
 	std::vector<Vertex> vertex_buffer_data;
 	std::vector<GLuint> index_buffer_data;
 
-	v.pos.Set(0.5f * length, 0.5f * length, 0.f);	v.color = color;	vertex_buffer_data.push_back(v); //v0
-	v.pos.Set(-0.5f * length, 0.5f * length, 0.f);	v.color = color;	vertex_buffer_data.push_back(v); //v1
-	v.pos.Set(-0.5f * length, -0.5f * length, 0.f);	v.color = color;	vertex_buffer_data.push_back(v); //v2
-	v.pos.Set(0.5f * length, -0.5f * length, 0.f);	v.color = color;	vertex_buffer_data.push_back(v); //v3
+	v.pos.Set(0.5f * length, 0.5f * length, 0.f);	v.normal.Set(0,0,1);	vertex_buffer_data.push_back(v); //v0
+	v.pos.Set(-0.5f * length, 0.5f * length, 0.f);	v.normal.Set(0,0,1);	vertex_buffer_data.push_back(v); //v1
+	v.pos.Set(-0.5f * length, -0.5f * length, 0.f);	v.normal.Set(0,0,1);	vertex_buffer_data.push_back(v); //v2
+	v.pos.Set(0.5f * length, -0.5f * length, 0.f);	v.normal.Set(0,0,1);	vertex_buffer_data.push_back(v); //v3
 
 	//tri1
 	index_buffer_data.push_back(0);
