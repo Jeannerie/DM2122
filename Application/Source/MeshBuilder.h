@@ -17,6 +17,7 @@ public:
 	static Mesh* GenerateQuad(const std::string& meshName, Color color, float length = 1.f);
 	static Mesh* GenerateCube(const std::string &meshName, Color color, float length = 1.f);
 	static Mesh* GenerateCircle(const std::string& meshName, Color color, unsigned numSlice, float radius);
+	static Mesh* GenerateHemisphere(const std::string& meshName, Color color, unsigned numStack, unsigned numSlice, float radius);
 	static Mesh* GenerateSphere(const std::string& meshName, Color color, unsigned numStack , unsigned numSlice, float radius);
 };
 
