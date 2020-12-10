@@ -19,6 +19,8 @@ public:
 	static Mesh* GenerateCircle(const std::string& meshName, Color color, unsigned numSlice, float radius);
 	static Mesh* GenerateHemisphere(const std::string& meshName, Color color, unsigned numStack, unsigned numSlice, float radius);
 	static Mesh* GenerateSphere(const std::string& meshName, Color color, unsigned numStack , unsigned numSlice, float radius);
+	static Mesh* GenerateCone(const std::string& meshName, Color color, float height, float radius);
+	static Mesh* GenerateCylinder(const std::string& meshName, Color color, unsigned numStack, unsigned numSlice, float radius, float height);
 };
 
 #endif

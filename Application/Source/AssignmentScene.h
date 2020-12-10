@@ -16,8 +16,19 @@ class Assignment : public Scene
 		GEO_CUBE,
 		GEO_CIRCLE,
 		GEO_SPHERE,
+		GEO_SBALL,
 		GEO_SPHERE2,
+		GEO_TOOTH,
+		GEO_WSPOTS,
+		GEO_TAIL,
+		GEO_IBERG,
 		GEO_HSPHERE,
+		GEO_SNOSE,
+		GEO_SHAND,
+		GEO_EYESL,
+		GEO_EYESR,
+		GEO_LPUPILS,
+		GEO_RPUPILS,
 		GEO_LIGHTBALL,
 		NUM_GEOMETRY,
 	};
@@ -47,6 +58,13 @@ public:
 	virtual void Update(double dt);
 	virtual void Render();
 	virtual void Exit();
+
+	float translateY;
+	float translateDir;
+
+	float rotateAngle;
+	float rotateDir;
+
 private:
 	unsigned m_vertexArrayID;
 	Mesh *meshList[NUM_GEOMETRY];
@@ -54,7 +72,7 @@ private:
 	unsigned m_programID;
 	unsigned m_parameters[U_TOTAL];
 	
-	float rotateAngle;
+	
 	Camera2 camera;
 	MS modelStack, viewStack, projectionStack;
 	Light light[1];
