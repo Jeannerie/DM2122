@@ -185,6 +185,7 @@ Mesh* MeshBuilder::GenerateCube(const std::string &meshName, Color color, float 
 Mesh* MeshBuilder::GenerateCircle(const std::string& meshName, Color color, unsigned numSlice, float radius) 
 {
 	Vertex v;
+	v.color = color;
 	std::vector<Vertex> vertex_buffer_data;
 	std::vector<GLuint> index_buffer_data;
 
@@ -192,8 +193,8 @@ Mesh* MeshBuilder::GenerateCircle(const std::string& meshName, Color color, unsi
 	for (unsigned slice = 0; slice < numSlice + 1; ++slice)
 	{
 		float theta = slice * degreePerSlice;
-		v.pos.Set(radius * cos(Math::DegreeToRadian(theta)), 0, radius * sin(Math::DegreeToRadian(theta)));
-		v.color = color;
+		v.pos.Set(radius * cos(Math::DegreeToRadian(theta)), 0, (radius * sin(Math::DegreeToRadian(theta))));
+		v.normal.Set(cos(Math::DegreeToRadian(theta)), 0, sin(Math::DegreeToRadian(theta)));
 		vertex_buffer_data.push_back(v);
 
 		v.pos.Set(0, 0, 0);

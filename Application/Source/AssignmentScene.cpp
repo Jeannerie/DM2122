@@ -46,10 +46,15 @@ void Assignment::Init()
 
 	//animation stuff
 	translateY = -1.8;
-	translateDir = 1;
+	translateDirY = 1;
+	translateY2 = 2.2;
+	translateDirY2 = 1;
+
+	translateX = 0;
+	translateDirX = 1;
 
 	rotateAngle = 0;
-	rotateDir = -105;
+	rotateDir = 180;
 
 	//Load vertex and fragment shaders
 
@@ -107,9 +112,11 @@ void Assignment::Init()
 	meshList[GEO_TOOTH] = MeshBuilder::GenerateCone("cone", Color(1, 1.0, 1.0),1 , 1);
 	meshList[GEO_SNOSE] = MeshBuilder::GenerateCone("cone", Color(0.9, 0.7, 0.0), 1, 1);
 
-
+	meshList[GEO_SHAND] = MeshBuilder::GenerateCylinder("cylinder", Color(1, 0, 0.8), 40, 40, 1, 1);
 
 	meshList[GEO_IBERG] = MeshBuilder::GenerateCone("cone", Color(1, 1.0, 1.0), 1, 1);
+	meshList[GEO_IBERG2] = MeshBuilder::GenerateCone("cone", Color(1, 0.0, 1.0), 1, 1);
+
 
 	meshList[GEO_HSPHERE] = MeshBuilder::GenerateHemisphere("hemisphere", Color(1, 1.0, 0.5), 40, 40, 1);
 
@@ -132,6 +139,11 @@ void Assignment::Init()
 	meshList[GEO_SPHERE]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
 	meshList[GEO_SPHERE]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
 	meshList[GEO_SPHERE]->material.kShininess = 3.f;
+
+	meshList[GEO_SHAND]->material.kAmbient.Set(0.1f, 0.1f, 0.3f);
+	meshList[GEO_SHAND]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
+	meshList[GEO_SHAND]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
+	meshList[GEO_SHAND]->material.kShininess = 3.f;
 
 	meshList[GEO_TOOTH]->material.kAmbient.Set(0.1f, 0.1f, 0.3f);
 	meshList[GEO_TOOTH]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
@@ -172,6 +184,11 @@ void Assignment::Init()
 	meshList[GEO_LPUPILS]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
 	meshList[GEO_LPUPILS]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
 	meshList[GEO_LPUPILS]->material.kShininess = 3.f;
+
+	meshList[GEO_RPUPILS]->material.kAmbient.Set(1.0f, 1.0f, 1.0f);
+	meshList[GEO_RPUPILS]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
+	meshList[GEO_RPUPILS]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
+	meshList[GEO_RPUPILS]->material.kShininess = 3.f;
 
 	meshList[GEO_SBALL]->material.kAmbient.Set(1.0f, 1.0f, 1.0f);
 	meshList[GEO_SBALL]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
@@ -231,7 +248,11 @@ void Assignment::Update(double dt)
 		light[0].power = -1;
 
 	if (Application::IsKeyPressed(VK_SPACE)) {
-		translateY += (float)(translateDir * 5 * dt);
+		translateY += (float)(translateDirY * 5 * dt);
+
+		translateX += (float)(translateDirX * 5 * dt);
+
+		translateY2 += (float)(translateDirY2 * 5 * dt);
 		rotateAngle += (float)(rotateDir * 5 *  dt);
 
 		if (rotateAngle > 90)
@@ -240,9 +261,19 @@ void Assignment::Update(double dt)
 			rotateAngle = -180;
 
 		if (translateY >= 0.5)
-			translateDir = -1;
+			translateDirY = -1;
 		if (translateY <= -1.5)
-			translateDir = 1;
+			translateDirY = 1;
+
+		if (translateY2 >= 2.5)
+			translateDirY2 = -1;
+		if (translateY2 <= 1.0)
+			translateDirY2 = 1;
+
+		if (translateX>= 6.5)
+			translateDirX = -1;
+		if (translateX <= -6.5)
+			translateDirX = 1;
 	}
 		
 }
@@ -379,7 +410,7 @@ void Assignment::Render()
 	//left fin
 	modelStack.PushMatrix();
 	modelStack.Translate(2.0,translateY, 1.5);
-	modelStack.Rotate(-85, 0, rotateAngle, 0);
+	modelStack.Rotate(-85, 0, 1, 0);
 	modelStack.Scale(1.5, 0.5, 0.55);
 	RenderMesh(meshList[GEO_SPHERE2], true);
 	modelStack.PopMatrix();
@@ -499,6 +530,13 @@ void Assignment::Render()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
+	modelStack.Translate(-15, 4.9, -9.8);
+	modelStack.Rotate(0, 0, 0, 1);
+	modelStack.Scale(10.0, 18.0, 18.0);
+	RenderMesh(meshList[GEO_IBERG2], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
 	modelStack.Translate(-20, 4.9, -2.8);
 	modelStack.Rotate(0, 0, 0, 1);
 	modelStack.Scale(5.0, 13.0, 10.0);
@@ -525,6 +563,20 @@ void Assignment::Render()
 	modelStack.Rotate(250, 0, 0, 1);
 	modelStack.Scale(0.4, 0.9, 0.5);
 	RenderMesh(meshList[GEO_SNOSE], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-9.4, translateY2, 20.4);
+	modelStack.Rotate(-120, 1, 0, 0);
+	modelStack.Scale(0.25, 3.9, 0.25);
+	RenderMesh(meshList[GEO_SHAND], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(-9.4, translateY2, 13.4);
+	modelStack.Rotate(120, 1, 0, 0);
+	modelStack.Scale(0.25, 3.9, 0.25);
+	RenderMesh(meshList[GEO_SHAND], true);
 	modelStack.PopMatrix();
 }
 

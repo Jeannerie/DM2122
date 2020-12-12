@@ -22,6 +22,7 @@ class Assignment : public Scene
 		GEO_WSPOTS,
 		GEO_TAIL,
 		GEO_IBERG,
+		GEO_IBERG2,
 		GEO_HSPHERE,
 		GEO_SNOSE,
 		GEO_SHAND,
@@ -59,8 +60,13 @@ public:
 	virtual void Render();
 	virtual void Exit();
 
+	float translateX;
+	float translateDirX;
+
 	float translateY;
-	float translateDir;
+	float translateY2;
+	float translateDirY;
+	float translateDirY2;
 
 	float rotateAngle;
 	float rotateDir;
