@@ -53,9 +53,26 @@ void Assignment::Init()
 	translateX = 0;
 	translateDirX = 1;
 
-	rotateAngle = 0;
-	rotateDir = 180;
+	translateZ = 1.0;
+	translateDirZ = 0.1;
 
+	rotateAngle = 0;
+	rotateDir = 30;
+
+	rotateAngle2 = 0;
+	rotateDir2 = 0.2;
+
+	rotateAngle3 = 0;
+	rotateDir3 = 180;
+
+	scaleAll = 0.5;
+	scaleDir = -1;
+
+	scaleAll2 = 0.5;
+	scaleDir2 = -1.5;
+
+	scaleAll3 = 1;
+	scaleDir3 = -0.4;
 	//Load vertex and fragment shaders
 
 
@@ -101,8 +118,9 @@ void Assignment::Init()
 	}
 	meshList[GEO_AXES] = MeshBuilder::GenerateAxes("reference", 1000, 1000, 1000);
 	meshList[GEO_QUAD] = MeshBuilder::GenerateQuad("quad", Color(0.0, 1.0, 1.0), 1.f);
-	meshList[GEO_CUBE] = MeshBuilder::GenerateCube("cube", Color(1, 0, 0), 1.f);
-	meshList[GEO_CIRCLE] = MeshBuilder::GenerateCircle("circle", Color(1, 0, 0), 40, 1);
+	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightball", Color(1, 1, 1), 40, 40, 1);
+
+	/*meshList[GEO_CIRCLE] = MeshBuilder::GenerateCircle("circle", Color(1, 0, 0), 40, 1);*/
 
 	meshList[GEO_TAIL] = MeshBuilder::GenerateSphere("sphere", Color(0.0, 1.0, 1.0), 40, 40, 1);
 
@@ -115,22 +133,21 @@ void Assignment::Init()
 	meshList[GEO_SHAND] = MeshBuilder::GenerateCylinder("cylinder", Color(1, 0, 0.8), 40, 40, 1, 1);
 
 	meshList[GEO_IBERG] = MeshBuilder::GenerateCone("cone", Color(1, 1.0, 1.0), 1, 1);
-	meshList[GEO_IBERG2] = MeshBuilder::GenerateCone("cone", Color(1, 0.0, 1.0), 1, 1);
+	meshList[GEO_IBERG2] = MeshBuilder::GenerateCone("cone", Color(1.0, 0.6, 0.3), 1, 1);
 
 
 	meshList[GEO_HSPHERE] = MeshBuilder::GenerateHemisphere("hemisphere", Color(1, 1.0, 0.5), 40, 40, 1);
 
-	meshList[GEO_EYESL] = MeshBuilder::GenerateHemisphere("hemisphere", Color(0, 0,0 ), 40, 40, 1);
+	meshList[GEO_HSPHERE2] = MeshBuilder::GenerateHemisphere("hemisphere", Color(0, 1.0, 1.0), 40, 40, 1);
+
+	meshList[GEO_EYESL] = MeshBuilder::GenerateSphere("sphere", Color(0, 0,0 ), 40, 40, 1);
 	meshList[GEO_LPUPILS] = MeshBuilder::GenerateCircle("circle", Color(1, 1, 1), 40, 1);
-	meshList[GEO_RPUPILS] = MeshBuilder::GenerateCircle("circle", Color(1, 1, 1), 40, 1);
 
 	meshList[GEO_WSPOTS] = MeshBuilder::GenerateCircle("circle", Color(1.0, 1.0, 1.0), 40, 1);
 
-	meshList[GEO_EYESR] = MeshBuilder::GenerateHemisphere("hemisphere", Color(0, 0, 0), 40, 40, 1);
-
 	meshList[GEO_SBALL] = MeshBuilder::GenerateSphere("sphere", Color(1, 1.0, 1.0), 40, 40, 1);
 
-	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightball", Color(1, 1, 1), 40, 40, 1);
+	
 
 	
 
@@ -160,6 +177,11 @@ void Assignment::Init()
 	meshList[GEO_IBERG]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
 	meshList[GEO_IBERG]->material.kShininess = 3.f;
 
+	meshList[GEO_IBERG2]->material.kAmbient.Set(0.1f, 0.1f, 0.3f);
+	meshList[GEO_IBERG2]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
+	meshList[GEO_IBERG2]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
+	meshList[GEO_IBERG2]->material.kShininess = 3.f;
+
 	meshList[GEO_SPHERE2]->material.kAmbient.Set(0.3f, 0.3f, 0.3f);
 	meshList[GEO_SPHERE2]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
 	meshList[GEO_SPHERE2]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
@@ -169,6 +191,11 @@ void Assignment::Init()
 	meshList[GEO_HSPHERE]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
 	meshList[GEO_HSPHERE]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
 	meshList[GEO_HSPHERE]->material.kShininess = 3.f;
+
+	meshList[GEO_HSPHERE2]->material.kAmbient.Set(0.1f, 0.1f, 0.3f);
+	meshList[GEO_HSPHERE2]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
+	meshList[GEO_HSPHERE2]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
+	meshList[GEO_HSPHERE2]->material.kShininess = 3.f;
 
 	meshList[GEO_EYESL]->material.kAmbient.Set(0.3f, 0.3f, 0.3f);
 	meshList[GEO_EYESL]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
@@ -185,20 +212,10 @@ void Assignment::Init()
 	meshList[GEO_LPUPILS]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
 	meshList[GEO_LPUPILS]->material.kShininess = 3.f;
 
-	meshList[GEO_RPUPILS]->material.kAmbient.Set(1.0f, 1.0f, 1.0f);
-	meshList[GEO_RPUPILS]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_RPUPILS]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
-	meshList[GEO_RPUPILS]->material.kShininess = 3.f;
-
 	meshList[GEO_SBALL]->material.kAmbient.Set(1.0f, 1.0f, 1.0f);
 	meshList[GEO_SBALL]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
 	meshList[GEO_SBALL]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
 	meshList[GEO_SBALL]->material.kShininess = 3.f;
-
-	meshList[GEO_EYESR]->material.kAmbient.Set(0.3f, 0.3f, 0.3f);
-	meshList[GEO_EYESR]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_EYESR]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
-	meshList[GEO_EYESR]->material.kShininess = 3.f;
 
 	meshList[GEO_QUAD]->material.kAmbient.Set(0.1f, 0.8f, 0.8f);
 	meshList[GEO_QUAD]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
@@ -206,7 +223,7 @@ void Assignment::Init()
 	meshList[GEO_QUAD]->material.kShininess = 0.1f;
 
 	meshList[GEO_TAIL]->material.kAmbient.Set(0.1f, 0.1f, 0.3f);
-	meshList[GEO_TAIL ]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
+	meshList[GEO_TAIL]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
 	meshList[GEO_TAIL]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
 	meshList[GEO_TAIL]->material.kShininess = 0.1f;
 }
@@ -222,7 +239,6 @@ void Assignment::Update(double dt)
 	if (Application::IsKeyPressed('4'))
 		glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); //wireframe mode
 
-	rotateAngle += (float)(10 * dt);
 
 	camera.Update(dt);
 
@@ -240,25 +256,97 @@ void Assignment::Update(double dt)
 	if (Application::IsKeyPressed('P'))
 		light[0].position.y += (float)(LSPEED * dt);
 
+	if (Application::IsKeyPressed('R'))
+	{
+
+		translateX = 0;
+		translateZ = 0;
+
+		rotateAngle = 0;
+		rotateAngle2 = 0;
+		rotateAngle3 = 0;
+
+		scaleAll = 0.5;
+		scaleAll2 = 0.5;
+		scaleAll3 = 1;
+	}
+
+	if (Application::IsKeyPressed('G'))
+	{
+		scaleAll2 += (float)(scaleDir2 * dt);
+		scaleAll3 += (float)(scaleDir3 * dt);
+
+		if (scaleAll2 >= 7)
+			scaleDir2 *= -1;
+		else if (scaleAll2 <= 0.5)
+			scaleDir2 *= -1;
+
+		if (scaleAll3 >= 1.0)
+			scaleDir3 *= -1;
+		else if (scaleAll3 <= 0.3)
+			scaleDir3 *= -1;
+	}
+	if (Application::IsKeyPressed('B'))
+	{
+		rotateAngle3 += (float)(rotateDir3 * 5 * dt);
+		translateZ += (float)(translateDirZ * 5 * dt);
+		
+
+		if (rotateAngle3 > -70)
+			rotateDir3 = -70;
+		if (rotateAngle3 > 70)
+			rotateDir3 = -70;
+
+
+		if (translateZ >= 0.8)
+			translateDirZ = -0.1;
+		if (translateZ >= -0.8)
+			translateDirZ = 0.1;
+
+		
+	}
+
+	if (Application::IsKeyPressed('X'))
+	{
+		rotateAngle2 += (float)(rotateDir2 * 5 * dt);
+		translateX += (float)(translateDirX * 2 * dt);
+		scaleAll += (float)(scaleDir * dt);
+
+		if (rotateAngle2 > 0)
+			rotateDir2 = -360;
+
+		if (translateX >= 20.5)
+			translateDirX = 0;
+
+		if (scaleAll >= 7)
+			scaleDir *= -1;
+		else if (scaleAll <= 0.5)
+			scaleDir *= -1;
+	}
 
 	if (Application::IsKeyPressed('C')) //on light
 		light[0].power = 1;
 
 	if (Application::IsKeyPressed('V')) //off light
-		light[0].power = -1;
+		light[0].power = 0;
 
 	if (Application::IsKeyPressed(VK_SPACE)) {
+
+		
 		translateY += (float)(translateDirY * 5 * dt);
 
-		translateX += (float)(translateDirX * 5 * dt);
+		
 
 		translateY2 += (float)(translateDirY2 * 5 * dt);
+
 		rotateAngle += (float)(rotateDir * 5 *  dt);
 
-		if (rotateAngle > 90)
-			rotateDir = -180;
-		else if (rotateAngle < 0)
-			rotateAngle = -180;
+
+		if (rotateAngle > 30)
+			rotateDir = -30;
+		if (rotateAngle < -30)
+			rotateDir = 30;
+
 
 		if (translateY >= 0.5)
 			translateDirY = -1;
@@ -270,10 +358,7 @@ void Assignment::Update(double dt)
 		if (translateY2 <= 1.0)
 			translateDirY2 = 1;
 
-		if (translateX>= 6.5)
-			translateDirX = -1;
-		if (translateX <= -6.5)
-			translateDirX = 1;
+		
 	}
 		
 }
@@ -311,6 +396,24 @@ void Assignment::Render()
 	RenderMesh(meshList[GEO_LIGHTBALL], false);
 	modelStack.PopMatrix();
 
+	modelStack.PushMatrix(); //start of spheal
+	modelStack.Rotate(rotateAngle, 1, 0, 0);
+	modelStack.Translate(translateX, 0, 0);
+	modelStack.Rotate(rotateAngle2, 0, 0, 1);
+	modelStack.Scale(scaleAll3, scaleAll3, scaleAll3);
+
+	//blue base body
+	modelStack.PushMatrix();
+	modelStack.Scale(3, 3, 3);
+	RenderMesh(meshList[GEO_SPHERE], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(0, 0, 0);
+	modelStack.Rotate(0, 0, 0, 1);
+	modelStack.Scale(scaleAll, scaleAll, scaleAll);
+	RenderMesh(meshList[GEO_SBALL], true);
+	modelStack.PopMatrix();
 	//yellow body
 	modelStack.PushMatrix();
 	modelStack.Translate(0.2, 0, 0);
@@ -340,7 +443,7 @@ void Assignment::Render()
 	modelStack.Translate(1.7, 2.85, -0.95);
 	modelStack.Rotate(150, 0, 0, 1);
 	modelStack.Scale(0.15, 0.15, 0.15);
-	RenderMesh(meshList[GEO_RPUPILS], true);
+	RenderMesh(meshList[GEO_LPUPILS], true);
 	modelStack.PopMatrix();
 
 	//right eye
@@ -348,32 +451,10 @@ void Assignment::Render()
 	modelStack.Translate(1.5, 2.6, -1);
 	modelStack.Rotate(150, 0, 0, 1);
 	modelStack.Scale(0.3, 0.3, 0.3);
-	RenderMesh(meshList[GEO_EYESR], true);
+	RenderMesh(meshList[GEO_EYESL], true);
 	modelStack.PopMatrix();
 
-	//snowman left eyes
-	modelStack.PushMatrix();
-	modelStack.Translate(-7.5, 4.6, 17.5);
-	modelStack.Rotate(90, 0, 0, 1);
-	modelStack.Scale(0.3, 0.3, 0.3);
-	RenderMesh(meshList[GEO_EYESR], true);
-	modelStack.PopMatrix();
 
-	//snowman right eyes
-	modelStack.PushMatrix();
-	modelStack.Translate(-7.9, 4.6, 15.5);
-	modelStack.Rotate(90, 0, 0, 1);
-	modelStack.Scale(0.3, 0.3, 0.3);
-	RenderMesh(meshList[GEO_EYESR], true);
-	modelStack.PopMatrix();
-
-	//blue base body
-	modelStack.PushMatrix();
-	modelStack.Translate(0, 0, 0);
-	modelStack.Rotate(0, 0, 1, 0);
-	modelStack.Scale(3, 3, 3);
-	RenderMesh(meshList[GEO_SPHERE], true);
-	modelStack.PopMatrix();
 
 	//Left mouth
 	modelStack.PushMatrix();
@@ -410,33 +491,19 @@ void Assignment::Render()
 	//left fin
 	modelStack.PushMatrix();
 	modelStack.Translate(2.0,translateY, 1.5);
-	modelStack.Rotate(-85, 0, 1, 0);
+	modelStack.Rotate(rotateAngle, 1, 0, 0);
 	modelStack.Scale(1.5, 0.5, 0.55);
 	RenderMesh(meshList[GEO_SPHERE2], true);
 	modelStack.PopMatrix();
 
-	////left fin
-	//modelStack.PushMatrix();
-	//modelStack.Translate(2.0, -1.8, 1.5);
-	//modelStack.Rotate(105, 1, 0, 0);
-	//modelStack.Scale(1.5, 0.5, 0.25);
-	//RenderMesh(meshList[GEO_SPHERE2], true);
-	//modelStack.PopMatrix();
 
 	//right fin
 	modelStack.PushMatrix();
 	modelStack.Translate(2.0, translateY, -1.5);
-	modelStack.Rotate(-105, 0, 1, 0);
+	modelStack.Rotate(rotateAngle, 1, 0, 0);
 	modelStack.Scale(1.5, 0.5, 0.55);
 	RenderMesh(meshList[GEO_SPHERE2], true);
 	modelStack.PopMatrix();
-
-	/*modelStack.PushMatrix();
-	modelStack.Translate(0.3, 0, 0);
-	modelStack.Rotate(rotateAngle, 0, 1, 0);
-	modelStack.Scale(3, 3, 3);
-	RenderMesh(meshList[GEO_SPHERE2], true);
-	modelStack.PopMatrix();*/
 
 	//blue ears
 	modelStack.PushMatrix();
@@ -521,18 +588,69 @@ void Assignment::Render()
 	RenderMesh(meshList[GEO_TAIL], true);
 	modelStack.PopMatrix();
 
+
+	modelStack.PopMatrix(); //END of spheal
+
+	//pokeball
+	modelStack.PushMatrix();
+
+	modelStack.Translate(10, -2.8, 0);
+	modelStack.Rotate(rotateAngle3, 0, 0, 1);
+	
+
+	modelStack.PushMatrix();
+	
+	modelStack.Translate(10,-2.8, 0);
+	modelStack.Rotate(0, 0, 0, 1);
+	modelStack.Scale(1.9, 1.9, 1.9);
+	RenderMesh(meshList[GEO_SBALL], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(10, -2.7, 0);
+	modelStack.Rotate(90, 1, 0, 0);
+	modelStack.Scale(1.95, 1.95, 1.0);
+	RenderMesh(meshList[GEO_EYESL], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(12.5, -2.7, 0);
+	modelStack.Rotate(90, 0, 0, 1);
+	modelStack.Scale(0.60, 0.60, 0.60);
+	RenderMesh(meshList[GEO_WSPOTS], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+
+	modelStack.Translate(10, -2.8, 0);
+	modelStack.Rotate(0, 0, 0, 1);
+	modelStack.Scale(scaleAll2, scaleAll2, scaleAll2);
+	RenderMesh(meshList[GEO_SBALL], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	modelStack.Translate(10, -2.7, 0);
+	modelStack.Rotate(180, 0, 0, 1);
+	modelStack.Scale(1.9, 1.9, 1.9);
+	RenderMesh(meshList[GEO_HSPHERE2], true);
+	modelStack.PopMatrix();
+
+
+	modelStack.PopMatrix();
+	//pokeball end
+
 	//ICEBERGS
 	modelStack.PushMatrix();
-	modelStack.Translate(-15, 4.9, -9.8);
+	modelStack.Translate(-12, 3.9, -9.8);
 	modelStack.Rotate(0, 0, 0, 1);
-	modelStack.Scale(10.0, 15.0, 15.0);
+	modelStack.Scale(10, 13.0, 15.0);
 	RenderMesh(meshList[GEO_IBERG], true);
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
-	modelStack.Translate(-15, 4.9, -9.8);
+	modelStack.Translate(-16.7, 4.9, -9.8);
 	modelStack.Rotate(0, 0, 0, 1);
-	modelStack.Scale(10.0, 18.0, 18.0);
+	modelStack.Scale(16.0, 18.0, 18.0);
 	RenderMesh(meshList[GEO_IBERG2], true);
 	modelStack.PopMatrix();
 
@@ -577,6 +695,22 @@ void Assignment::Render()
 	modelStack.Rotate(120, 1, 0, 0);
 	modelStack.Scale(0.25, 3.9, 0.25);
 	RenderMesh(meshList[GEO_SHAND], true);
+	modelStack.PopMatrix();
+
+	//snowman left eyes
+	modelStack.PushMatrix();
+	modelStack.Translate(-7.5, 4.6, 17.5);
+	modelStack.Rotate(90, 0, 0, 1);
+	modelStack.Scale(0.3, 0.3, 0.3);
+	RenderMesh(meshList[GEO_EYESL], true);
+	modelStack.PopMatrix();
+
+	//snowman right eyes
+	modelStack.PushMatrix();
+	modelStack.Translate(-7.9, 4.6, 15.5);
+	modelStack.Rotate(90, 0, 0, 1);
+	modelStack.Scale(0.3, 0.3, 0.3);
+	RenderMesh(meshList[GEO_EYESL], true);
 	modelStack.PopMatrix();
 }
 

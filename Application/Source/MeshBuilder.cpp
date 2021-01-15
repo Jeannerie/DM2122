@@ -69,16 +69,19 @@ Then generate the VBO/IBO and store them in Mesh object
 \return Pointer to mesh storing VBO/IBO of quad
 */
 /******************************************************************************/
-Mesh* MeshBuilder::GenerateQuad(const std::string &meshName, Color color, float length)
+Mesh* MeshBuilder::GenerateQuad(const std::string& meshName, Color color, float length)
 {
 	Vertex v;
+	v.color = color;
 	std::vector<Vertex> vertex_buffer_data;
 	std::vector<GLuint> index_buffer_data;
 
-	v.pos.Set(0.5f * length, 0.5f * length, 0.f);	v.normal.Set(0,0,1);	vertex_buffer_data.push_back(v); //v0
-	v.pos.Set(-0.5f * length, 0.5f * length, 0.f);	v.normal.Set(0,0,1);	vertex_buffer_data.push_back(v); //v1
-	v.pos.Set(-0.5f * length, -0.5f * length, 0.f);	v.normal.Set(0,0,1);	vertex_buffer_data.push_back(v); //v2
-	v.pos.Set(0.5f * length, -0.5f * length, 0.f);	v.normal.Set(0,0,1);	vertex_buffer_data.push_back(v); //v3
+
+
+	v.pos.Set(0.5f * length, 0.5f * length, 0.f);	v.normal.Set(0, 0, 1);		v.texCoord.Set(0, 0);	vertex_buffer_data.push_back(v); //v0
+	v.pos.Set(-0.5f * length, 0.5f * length, 0.f);	v.normal.Set(0, 0, 1);		v.texCoord.Set(1, 0);	 vertex_buffer_data.push_back(v); //v1
+	v.pos.Set(-0.5f * length, -0.5f * length, 0.f);	v.normal.Set(0, 0, 1);		v.texCoord.Set(1, 1);	vertex_buffer_data.push_back(v); //v2
+	v.pos.Set(0.5f * length, -0.5f * length, 0.f);	v.normal.Set(0, 0, 1);		v.texCoord.Set(0, 1);	vertex_buffer_data.push_back(v); //v3
 
 	//tri1
 	index_buffer_data.push_back(0);
@@ -88,6 +91,22 @@ Mesh* MeshBuilder::GenerateQuad(const std::string &meshName, Color color, float 
 	index_buffer_data.push_back(0);
 	index_buffer_data.push_back(2);
 	index_buffer_data.push_back(3);
+
+	v.pos.Set(0.5f * length, -0.5f * length, 0.f);	v.normal.Set(0, 0, 1);		vertex_buffer_data.push_back(v); //v3
+	v.pos.Set(-0.5f * length, -0.5f * length, 0.f);	v.normal.Set(0, 0, 1);		vertex_buffer_data.push_back(v); //v2
+	v.pos.Set(-0.5f * length, 0.5f * length, 0.f);	v.normal.Set(0, 0, 1);		vertex_buffer_data.push_back(v); //v1
+	v.pos.Set(0.5f * length, 0.5f * length, 0.f);	v.normal.Set(0, 0, 1);		vertex_buffer_data.push_back(v); //v0
+
+	index_buffer_data.push_back(3);
+	index_buffer_data.push_back(2);
+	index_buffer_data.push_back(0);
+
+	index_buffer_data.push_back(2);
+	index_buffer_data.push_back(1);
+	index_buffer_data.push_back(0);
+
+
+
 
 	Mesh* mesh = new Mesh(meshName);
 
@@ -238,22 +257,27 @@ float sphereZ(float phi, float theta)
 
 Mesh* MeshBuilder::GenerateSphere(const std::string& meshName, Color color, unsigned numStack, unsigned numSlice, float radius)
 {
+
+
 	Vertex v;
 	v.color = color;
 	std::vector<Vertex> vertex_buffer_data;
 	std::vector<GLuint> index_buffer_data;
 
-	float degreePerStack = 180.f / numStack;
-	float degreePerSlice = 360.f / numSlice;
+	float degreePerStack = 180.0f / numStack;
+	float degreePerSlice = 360.0f / numSlice;
 
-	for (unsigned stack = 0; stack < numStack + 1; ++stack) //stack //replace with 180 for sphere
+	for (unsigned stack = 0; stack < numStack + 1; ++stack)
 	{
 		float phi = -90.f + stack * degreePerStack;
-		for (unsigned slice = 0; slice < numSlice + 1; ++slice) //slice
+		for (unsigned slice = 0; slice < numSlice + 1; ++slice)
 		{
 			float theta = slice * degreePerSlice;
 			v.pos.Set(radius * sphereX(phi, theta), radius * sphereY(phi, theta), radius * sphereZ(phi, theta));
 			v.normal.Set(sphereX(phi, theta), sphereY(phi, theta), sphereZ(phi, theta));
+
+			v.texCoord.Set(theta / 360, (-phi + 90) / 180);
+			//v.texCoord.Set(-(theta + 180) / 360, (phi + 90) / 180);
 			vertex_buffer_data.push_back(v);
 		}
 	}
@@ -277,6 +301,7 @@ Mesh* MeshBuilder::GenerateSphere(const std::string& meshName, Color color, unsi
 	mesh->mode = Mesh::DRAW_TRIANGLE_STRIP;
 
 	return mesh;
+
 }
 
 Mesh* MeshBuilder::GenerateHemisphere(const std::string& meshName, Color color, unsigned numStack, unsigned numSlice, float radius)

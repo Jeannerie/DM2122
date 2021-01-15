@@ -14,6 +14,7 @@ Default constructor - generate VBO/IBO here
 Mesh::Mesh(const std::string &meshName)
 	: name(meshName)
 	, mode(DRAW_TRIANGLES)
+	, textureID(0)
 {
 	glGenBuffers(1, &vertexBuffer);
 	glGenBuffers(1, &indexBuffer);
@@ -29,6 +30,8 @@ Mesh::~Mesh()
 {
 	glDeleteBuffers(1, &vertexBuffer);
 	glDeleteBuffers(1, &indexBuffer);
+	if (textureID > 0)
+		glDeleteTextures(1, &textureID);
 }
 
 /******************************************************************************/
@@ -44,6 +47,11 @@ void Mesh::Render()
 	glEnableVertexAttribArray(2); // 3rd attribute : normals
 
 	glBindBuffer(GL_ARRAY_BUFFER, vertexBuffer);
+	if (textureID > 0)
+	{
+		glEnableVertexAttribArray(3);
+		glVertexAttribPointer(3, 2, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(Position) + sizeof(Color) + sizeof(Vector3)));
+	}
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)0);
 	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)sizeof(Position));
 	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), (void*)(sizeof(Position) + sizeof(Color)));
@@ -61,4 +69,10 @@ void Mesh::Render()
 	glDisableVertexAttribArray(0);
 	glDisableVertexAttribArray(1);
 	glDisableVertexAttribArray(2);
+
+	if (textureID > 0)
+	{
+		glDisableVertexAttribArray(3);
+	}
+	
 }
