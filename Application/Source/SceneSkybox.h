@@ -6,7 +6,7 @@
 #include "Mesh.h"
 #include "MatrixStack.h"
 #include "Light.h"
-#include "Camera2.h"
+#include "Camera3.h"
 class Skybox : public Scene
 {
 	enum GEOMETRY_TYPE
@@ -79,7 +79,7 @@ private:
 	unsigned m_parameters[U_TOTAL];
 	
 	float rotateAngle;
-	Camera2 camera;
+	Camera3 camera;
 	MS modelStack, viewStack, projectionStack;
 	Light light[2];
 	void RenderMesh(Mesh* mesh, bool enableLight);
