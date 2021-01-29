@@ -164,6 +164,7 @@
     <ClCompile Include="Source\SceneLight2.cpp" />
     <ClCompile Include="Source\SceneModel.cpp" />
     <ClCompile Include="Source\SceneSkybox.cpp" />
+    <ClCompile Include="Source\SceneText.cpp" />
     <ClCompile Include="Source\SceneTexture.cpp" />
     <ClCompile Include="Source\shader.cpp" />
     <ClCompile Include="Source\Utility.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="Source\SceneLight2.h" />
     <ClInclude Include="Source\SceneModel.h" />
     <ClInclude Include="Source\SceneSkybox.h" />
+    <ClInclude Include="Source\SceneText.h" />
     <ClInclude Include="Source\SceneTexture.h" />
     <ClInclude Include="Source\shader.hpp" />
     <ClInclude Include="Source\Utility.h" />

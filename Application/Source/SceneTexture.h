@@ -73,7 +73,7 @@ private:
 	
 	float rotateAngle;
 	Camera2 camera;
-	MS modelStack, viewStack, projectionStack;
+	MS  modelStack, viewStack, projectionStack;
 	Light light[2];
 	void RenderMesh(Mesh* mesh, bool enableLight);
 };

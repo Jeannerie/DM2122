@@ -133,7 +133,7 @@ void Texture::Init()
 	glUniform1f(m_parameters[U_LIGHT1_COSCUTOFF], light[1].cosCutoff);
 	glUniform1f(m_parameters[U_LIGHT1_COSINNER], light[1].cosInner);
 	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], light[1].exponent);
-	
+
 
 
 	//// Init VBO
@@ -149,18 +149,18 @@ void Texture::Init()
 
 	meshList[GEO_SPHERE] = MeshBuilder::GenerateSphere("sphere", Color(1, 1, 1), 40, 40, 1);
 	meshList[GEO_SPHERE]->textureID = LoadTGA("Image//color.tga");
-	
+
 
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightball", Color(1, 1, 1), 40, 40, 1);
 
-	
+
 
 	meshList[GEO_SPHERE]->material.kAmbient.Set(0.1f, 0.1f, 0.3f);
 	meshList[GEO_SPHERE]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
 	meshList[GEO_SPHERE]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
 	meshList[GEO_SPHERE]->material.kShininess = 3.f;
 
-	
+
 
 	meshList[GEO_QUAD]->material.kAmbient.Set(0.1f, 0.1f, 0.1f);
 	meshList[GEO_QUAD]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
@@ -201,7 +201,7 @@ void Texture::Update(double dt)
 		glUniform1i(m_parameters[U_LIGHT0_TYPE], light[0].type);
 		light[1].type = Light::LIGHT_SPOT;
 		glUniform1i(m_parameters[U_LIGHT1_TYPE], light[1].type);
-	}	
+	}
 	rotateAngle += (float)(10 * dt);
 
 	camera.Update(dt);
