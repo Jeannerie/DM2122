@@ -66,6 +66,22 @@ void Camera3::Update(double dt)
     static const float CAMERA_SPEED = 30.f;
     Vector3 view = (target - position).Normalized();
 
+    if (position.x >= 490)
+        position.x = 490;
+
+    if (position.x <= -490)
+        position.x = -490;
+
+    if (position.y >= 490)
+        position.y = 490;
+    if (position.y <= -490)
+        position.y = -490;
+
+    if (position.z >= 490)
+        position.z = 490;
+    if (position.z <= -490)
+        position.z = -490;
+
     if (Application::IsKeyPressed('A'))
     {
         Vector3 right = view.Cross(up).Normalized();
@@ -114,7 +130,7 @@ void Camera3::Update(double dt)
 
         up = right.Cross(view).Normalized();
 
-        target += up * dt * 5;
+        target += up * dt * 30;
     }
     if (Application::IsKeyPressed(VK_DOWN))
     {
@@ -123,7 +139,7 @@ void Camera3::Update(double dt)
 
         up = right.Cross(view).Normalized();
 
-        target -= up * dt * 5;
+        target -= up * dt * 30;
     }
     if (Application::IsKeyPressed(VK_LEFT))
     {
@@ -132,7 +148,7 @@ void Camera3::Update(double dt)
 
         up = right.Cross(view).Normalized();
 
-        target -= right * dt * 5;
+        target -= right * dt * 30;
     }
     if (Application::IsKeyPressed(VK_RIGHT))
     {
@@ -141,6 +157,6 @@ void Camera3::Update(double dt)
 
         up = right.Cross(view).Normalized();
 
-        target += right * dt * 5;
+        target += right * dt * 30;
     }
 }

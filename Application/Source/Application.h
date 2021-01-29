@@ -7,6 +7,12 @@
 class Application
 {
 public:
+	static bool IsMousePressed(unsigned short key);
+	static void GetCursorPos(double* xpos, double* ypos);
+	static int GetWindowWidth();
+	static int GetWindowHeight();
+	static unsigned m_width;
+	static unsigned m_height;
 	Application();
 	~Application();
 	void Init();
