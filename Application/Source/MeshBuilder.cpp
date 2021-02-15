@@ -514,6 +514,38 @@ Mesh* MeshBuilder::GenerateCylinder(const std::string& meshName, Color color, un
 	return mesh;
 }
 
+Mesh* MeshBuilder::GenerateOBJMTL(const std::string& meshName,
+	const std::string& file_path, const std::string& mtl_path)
+{
+	//Read vertices, texcoords & normals from OBJ
+	std::vector<Position> vertices;
+	std::vector<TexCoord> uvs;
+	std::vector<Vector3> normals;
+	std::vector<Material> materials;
+	bool success = LoadOBJMTL(file_path.c_str(), mtl_path.c_str(),
+		vertices, uvs, normals, materials);
+	if (!success)
+		return NULL;
+	//Index the vertices, texcoords & normals properly
+	std::vector<Vertex> vertex_buffer_data;
+	std::vector<GLuint> index_buffer_data;
+	IndexVBO(vertices, uvs, normals, index_buffer_data,
+		vertex_buffer_data);
+	Mesh* mesh = new Mesh(meshName);
+	for (Material& material : materials)
+		mesh->materials.push_back(material);
+	glBindBuffer(GL_ARRAY_BUFFER, mesh->vertexBuffer);
+	glBufferData(GL_ARRAY_BUFFER, vertex_buffer_data.size() *
+		sizeof(Vertex), &vertex_buffer_data[0], GL_STATIC_DRAW);
+	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mesh->indexBuffer);
+	glBufferData(GL_ELEMENT_ARRAY_BUFFER, index_buffer_data.size() 
+	* sizeof(GLuint), &index_buffer_data[0], GL_STATIC_DRAW);
+	mesh->indexSize = index_buffer_data.size();
+	mesh->mode = Mesh::DRAW_TRIANGLES;
+	return mesh;
+}
+
+
 Mesh* MeshBuilder::GenerateText(const std::string& meshName, unsigned numRow, unsigned numCol)
 {
 	Vertex v;

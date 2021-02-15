@@ -153,27 +153,27 @@ void SceneUI::Init()
 
 	meshList[GEO_FRONT] = MeshBuilder::GenerateQuad("front",
 		Color(1, 1, 1), 1.f);
-	meshList[GEO_FRONT]->textureID = LoadTGA("Image//front.tga");
+	meshList[GEO_FRONT]->textureID = LoadTGA("Image//frontsp2river.tga");
 
 	meshList[GEO_LEFT] = MeshBuilder::GenerateQuad("left",
 		Color(1, 1, 1), 1.f);
-	meshList[GEO_LEFT]->textureID = LoadTGA("Image//left.tga");
+	meshList[GEO_LEFT]->textureID = LoadTGA("Image//leftsp2river.tga");
 
 	meshList[GEO_RIGHT] = MeshBuilder::GenerateQuad("right",
 		Color(1, 1, 1), 1.f);
-	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//right.tga");
+	meshList[GEO_RIGHT]->textureID = LoadTGA("Image//rightsp2river.tga");
 
 	meshList[GEO_TOP] = MeshBuilder::GenerateQuad("top",
 		Color(1, 1, 1), 1.f);
-	meshList[GEO_TOP]->textureID = LoadTGA("Image//top.tga");
+	meshList[GEO_TOP]->textureID = LoadTGA("Image//topsp2river.tga");
 
 	meshList[GEO_BOTTOM] = MeshBuilder::GenerateQuad("bottom",
 		Color(1, 1, 1), 1.f);
-	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//bottom.tga");
+	meshList[GEO_BOTTOM]->textureID = LoadTGA("Image//btmsp2river.tga");
 
 	meshList[GEO_BACK] = MeshBuilder::GenerateQuad("back",
 		Color(1, 1, 1), 1.f);
-	meshList[GEO_BACK]->textureID = LoadTGA("Image//back.tga");
+	meshList[GEO_BACK]->textureID = LoadTGA("Image//backsp2river.tga");
 
 	meshList[GEO_QUAD] = MeshBuilder::GenerateQuad("quad", Color(0.1, 0.3, 0.5), 1.f);
 	meshList[GEO_QUAD]->textureID = LoadTGA("Image//color.tga");
@@ -546,26 +546,32 @@ void SceneUI::RenderMesh(Mesh* mesh, bool enableLight)
 }
 
 void SceneUI::RenderSkybox()
-{
-	//front
+{//front
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 0, -500);
-	modelStack.Rotate(180, 0, 0, 1);
+	modelStack.Rotate(180, 1, 0, 1);
+	modelStack.Rotate(180, 1, 0, 0);
+	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Scale(1000, 1000, 1);
 	RenderMesh(meshList[GEO_FRONT], false);
 	modelStack.PopMatrix();
 	//back
 	modelStack.PushMatrix();
+	modelStack.PushMatrix();
 	modelStack.Translate(0, 0, 500);
 	modelStack.Rotate(180, 1, 0, 1);
+	modelStack.Rotate(180, 0, 0, 1);
 	modelStack.Rotate(-90, 0, 1, 0);
 	modelStack.Scale(1000, 1000, 1);
 	RenderMesh(meshList[GEO_BACK], false);
 	modelStack.PopMatrix();
+	modelStack.PopMatrix();
 	//left
 	modelStack.PushMatrix();
 	modelStack.Translate(-500, 0, 0);
-	modelStack.Rotate(-180, 1, 0, 1);
+	modelStack.Rotate(180, 1, 0, 1);
+	modelStack.Rotate(180, 0, 0, 1);
+	modelStack.Rotate(-180, 0, 1, 0);
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_LEFT], false);
 	modelStack.PopMatrix();
@@ -573,6 +579,7 @@ void SceneUI::RenderSkybox()
 	modelStack.PushMatrix();
 	modelStack.Translate(500, 0, 0);
 	modelStack.Rotate(180, 1, 0, 1);
+	modelStack.Rotate(180, 1, 0, 0);
 	modelStack.Rotate(-180, 0, 1, 0);
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_RIGHT], false);
@@ -582,8 +589,8 @@ void SceneUI::RenderSkybox()
 	modelStack.PushMatrix();
 	modelStack.Translate(0, 500, 0);
 	modelStack.Rotate(180, 1, 0, 0);
-	modelStack.Rotate(-90, 1, 0, 0);
-	modelStack.Rotate(-90, 0, 0, 1);
+	modelStack.Rotate(90, 1, 0, 0);
+	modelStack.Rotate(180, 0, 0, 1);
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_TOP], false);
 	modelStack.PopMatrix();
@@ -591,8 +598,9 @@ void SceneUI::RenderSkybox()
 	//bottom
 	modelStack.PushMatrix();
 	modelStack.Translate(0, -500, 0);
-	modelStack.Rotate(180, 1, 0, 1);
+	modelStack.Rotate(180, 1, 0, 0);
 	modelStack.Rotate(90, 1, 0, 0);
+	modelStack.Rotate(90, 0, 0, 1);
 	modelStack.Scale(1000, 1000, 1000);
 	RenderMesh(meshList[GEO_BOTTOM], false);
 	modelStack.PopMatrix();

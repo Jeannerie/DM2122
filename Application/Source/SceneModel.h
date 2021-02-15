@@ -7,6 +7,8 @@
 #include "MatrixStack.h"
 #include "Light.h"
 #include "Camera2.h"
+#include "LoadOBJ.h"
+#include "LoadTGA.h"
 class SceneModel : public Scene
 {
 	enum GEOMETRY_TYPE
@@ -28,6 +30,8 @@ class SceneModel : public Scene
 		GEO_MODELCHAIR,
 		GEO_MODELWINE,
 		GEO_MODELSHOE,
+		GEO_MODEL7,
+		GEO_MODEL8,
 		GEO_LIGHTBALL,
 		NUM_GEOMETRY,
 	};

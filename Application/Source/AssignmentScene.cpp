@@ -122,12 +122,6 @@ void Assignment::Init()
 
 	/*meshList[GEO_CIRCLE] = MeshBuilder::GenerateCircle("circle", Color(1, 0, 0), 40, 1);*/
 
-	meshList[GEO_TAIL] = MeshBuilder::GenerateSphere("sphere", Color(0.0, 1.0, 1.0), 40, 40, 1);
-
-	meshList[GEO_SPHERE] = MeshBuilder::GenerateSphere("sphere", Color(0, 1.0, 1.0), 40, 40, 1);
-	meshList[GEO_SPHERE2] = MeshBuilder::GenerateSphere("sphere", Color(1, 1.0, 0.5), 40, 40, 1);
-
-	meshList[GEO_TOOTH] = MeshBuilder::GenerateCone("cone", Color(1, 1.0, 1.0),1 , 1);
 	meshList[GEO_SNOSE] = MeshBuilder::GenerateCone("cone", Color(0.9, 0.7, 0.0), 1, 1);
 
 	meshList[GEO_SHAND] = MeshBuilder::GenerateCylinder("cylinder", Color(1, 0, 0.8), 40, 40, 1, 1);
@@ -135,6 +129,12 @@ void Assignment::Init()
 	meshList[GEO_IBERG] = MeshBuilder::GenerateCone("cone", Color(1, 1.0, 1.0), 1, 1);
 	meshList[GEO_IBERG2] = MeshBuilder::GenerateCone("cone", Color(1.0, 0.6, 0.3), 1, 1);
 
+	meshList[GEO_TAIL] = MeshBuilder::GenerateSphere("sphere", Color(0.0, 1.0, 1.0), 40, 40, 1);
+
+	meshList[GEO_SPHERE] = MeshBuilder::GenerateSphere("sphere", Color(0, 1.0, 1.0), 40, 40, 1);
+	meshList[GEO_SPHERE2] = MeshBuilder::GenerateSphere("sphere", Color(1, 1.0, 0.5), 40, 40, 1);
+
+	meshList[GEO_TOOTH] = MeshBuilder::GenerateCone("cone", Color(1, 1.0, 1.0),1 , 1);
 
 	meshList[GEO_HSPHERE] = MeshBuilder::GenerateHemisphere("hemisphere", Color(1, 1.0, 0.5), 40, 40, 1);
 
@@ -151,21 +151,10 @@ void Assignment::Init()
 
 	
 
-
-	meshList[GEO_SPHERE]->material.kAmbient.Set(0.1f, 0.1f, 0.3f);
-	meshList[GEO_SPHERE]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_SPHERE]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
-	meshList[GEO_SPHERE]->material.kShininess = 3.f;
-
 	meshList[GEO_SHAND]->material.kAmbient.Set(0.1f, 0.1f, 0.3f);
 	meshList[GEO_SHAND]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
 	meshList[GEO_SHAND]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
 	meshList[GEO_SHAND]->material.kShininess = 3.f;
-
-	meshList[GEO_TOOTH]->material.kAmbient.Set(0.1f, 0.1f, 0.3f);
-	meshList[GEO_TOOTH]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
-	meshList[GEO_TOOTH]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
-	meshList[GEO_TOOTH]->material.kShininess = 3.f;
 
 	meshList[GEO_SNOSE]->material.kAmbient.Set(0.9f, 0.7f, 0.0f);
 	meshList[GEO_SNOSE]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
@@ -181,6 +170,18 @@ void Assignment::Init()
 	meshList[GEO_IBERG2]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
 	meshList[GEO_IBERG2]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
 	meshList[GEO_IBERG2]->material.kShininess = 3.f;
+
+	meshList[GEO_SPHERE]->material.kAmbient.Set(0.1f, 0.1f, 0.3f);
+	meshList[GEO_SPHERE]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
+	meshList[GEO_SPHERE]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
+	meshList[GEO_SPHERE]->material.kShininess = 3.f;
+
+	meshList[GEO_TOOTH]->material.kAmbient.Set(0.1f, 0.1f, 0.3f);
+	meshList[GEO_TOOTH]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
+	meshList[GEO_TOOTH]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
+	meshList[GEO_TOOTH]->material.kShininess = 3.f;
+
+
 
 	meshList[GEO_SPHERE2]->material.kAmbient.Set(0.3f, 0.3f, 0.3f);
 	meshList[GEO_SPHERE2]->material.kDiffuse.Set(0.7f, 0.7f, 0.7f);
@@ -256,6 +257,12 @@ void Assignment::Update(double dt)
 	if (Application::IsKeyPressed('P'))
 		light[0].position.y += (float)(LSPEED * dt);
 
+	if (Application::IsKeyPressed('C')) //on light
+		light[0].power = 1;
+
+	if (Application::IsKeyPressed('V')) //off light
+		light[0].power = 0;
+
 	if (Application::IsKeyPressed('R'))
 	{
 
@@ -324,11 +331,7 @@ void Assignment::Update(double dt)
 			scaleDir *= -1;
 	}
 
-	if (Application::IsKeyPressed('C')) //on light
-		light[0].power = 1;
 
-	if (Application::IsKeyPressed('V')) //off light
-		light[0].power = 0;
 
 	if (Application::IsKeyPressed(VK_SPACE)) {
 

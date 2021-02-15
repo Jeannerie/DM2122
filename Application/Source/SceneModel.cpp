@@ -1,12 +1,13 @@
 #include "SceneModel.h"
 #include "GL\glew.h"
 
+
 #include "shader.hpp"
 #include "Mtx44.h"
 
 #include "Application.h"
 #include "MeshBuilder.h"
-
+#include "LoadOBJ.h"
 #include "Light.h"
 #include "Material.h"
 #include "Utility.h"
@@ -88,6 +89,10 @@ void SceneModel::Init()
 	m_parameters[U_LIGHT1_EXPONENT] = glGetUniformLocation(m_programID, "lights[1].exponent");
 	m_parameters[U_NUMLIGHTS] = glGetUniformLocation(m_programID, "numLights");
 
+	Mesh::SetMaterialLoc(m_parameters[U_MATERIAL_AMBIENT],
+		m_parameters[U_MATERIAL_DIFFUSE],
+		m_parameters[U_MATERIAL_SPECULAR],
+		m_parameters[U_MATERIAL_SHININESS]);
 
 	// Use our shader
 	glUseProgram(m_programID);
@@ -97,7 +102,7 @@ void SceneModel::Init()
 	light[0].type = Light::LIGHT_SPOT;
 	light[0].position.Set(0, 20, 0);
 	light[0].color.Set(1, 1, 1);
-	light[0].power = 1;
+	light[0].power = 10;
 	light[0].kC = 1.f;
 	light[0].kL = 0.01f;
 	light[0].kQ = 0.001f;
@@ -138,6 +143,7 @@ void SceneModel::Init()
 	glUniform1f(m_parameters[U_LIGHT1_COSINNER], light[1].cosInner);
 	glUniform1f(m_parameters[U_LIGHT1_EXPONENT], light[1].exponent);
 	
+	
 
 
 	//// Init VBO
@@ -172,20 +178,28 @@ void SceneModel::Init()
 	meshList[GEO_BACK]->textureID = LoadTGA("Image//back.tga");
 
 	meshList[GEO_QUAD] = MeshBuilder::GenerateQuad("quad", Color(0.1, 0.3, 0.5), 1.f);
-	//meshList[GEO_QUAD]->textureID = LoadTGA("Image//sidm.tga");
+	/*meshList[GEO_QUAD]->textureID = LoadTGA("Image//sidm.tga");*/
 
 	meshList[GEO_CUBE] = MeshBuilder::GenerateCube("cube", Color(1, 0, 0), 1.f);
 	meshList[GEO_CIRCLE] = MeshBuilder::GenerateCircle("circle", Color(1, 0, 0), 40, 1);
 
 	//meshList[GEO_SPHERE] = MeshBuilder::GenerateSphere("sphere", Color(1, 1, 1), 40, 40, 1);
-	//meshList[GEO_SPHERE]->textureID = LoadTGA("Image//color.tga");
+	meshList[GEO_QUAD]->textureID = LoadTGA("Image//color.tga");
 	
+	meshList[GEO_MODEL7] = MeshBuilder::GenerateOBJMTL("model7",
+		"OBJ//house_type01.obj", "OBJ//house_type01.mtl");
+
+
+	meshList[GEO_MODEL8] = MeshBuilder::GenerateOBJMTL("model7",
+		"OBJ//cottage_obj.obj", "OBJ//cottage_obj.mtl"); //cottage_diffuse
+	/*meshList[GEO_MODEL8]->textureID =
+		LoadTGA("Image//cottage_diffuse.tga");*/
 
 
 	meshList[GEO_MODELCHAIR] = MeshBuilder::GenerateOBJ("chair", "OBJ//chair.obj");
 	meshList[GEO_MODELCHAIR]->textureID = LoadTGA("Image//chair.tga");
 
-	meshList[GEO_MODELDMAN] = MeshBuilder::GenerateOBJ("doorman", "OBJ//doorman.obj");
+	/*meshList[GEO_MODELDMAN] = MeshBuilder::GenerateOBJ("doorman", "OBJ//doorman.obj");
 	meshList[GEO_MODELDMAN]->textureID = LoadTGA("Image//doorman.tga");
 
 	meshList[GEO_MODELDART] = MeshBuilder::GenerateOBJ("dart", "OBJ//dart.obj");
@@ -198,7 +212,7 @@ void SceneModel::Init()
 	meshList[GEO_MODELSHOE]->textureID = LoadTGA("Image//shoe.tga");
 
 	meshList[GEO_MODELWINE] = MeshBuilder::GenerateOBJ("wine", "OBJ//winebottle.obj");
-	meshList[GEO_MODELWINE]->textureID = LoadTGA("Image//winebottle.tga");
+	meshList[GEO_MODELWINE]->textureID = LoadTGA("Image//winebottle.tga");*/
 
 	meshList[GEO_LIGHTBALL] = MeshBuilder::GenerateSphere("lightball", Color(1, 1, 1), 40, 40, 1);
 
@@ -209,12 +223,12 @@ void SceneModel::Init()
 	//meshList[GEO_SPHERE]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
 	//meshList[GEO_SPHERE]->material.kShininess = 3.f;
 
-	meshList[GEO_MODELCHAIR]->material.kAmbient.Set(0.1f, 0.1f, 0.1f);
+	meshList[GEO_MODELCHAIR]->material.kAmbient.Set(0.7f, 0.7f, 0.7f);
 	meshList[GEO_MODELCHAIR]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_MODELCHAIR]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
 	meshList[GEO_MODELCHAIR]->material.kShininess = 0.1f;
 
-	meshList[GEO_MODELDMAN]->material.kAmbient.Set(0.1f, 0.1f, 0.1f);
+	/*meshList[GEO_MODELDMAN]->material.kAmbient.Set(0.1f, 0.1f, 0.1f);
 	meshList[GEO_MODELDMAN]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_MODELDMAN]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
 	meshList[GEO_MODELDMAN]->material.kShininess = 0.1f;
@@ -237,7 +251,18 @@ void SceneModel::Init()
 	meshList[GEO_MODELSHOE]->material.kAmbient.Set(0.1f, 0.1f, 0.1f);
 	meshList[GEO_MODELSHOE]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
 	meshList[GEO_MODELSHOE]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
-	meshList[GEO_MODELSHOE]->material.kShininess = 0.1f;
+	meshList[GEO_MODELSHOE]->material.kShininess = 0.1f;*/
+
+
+	meshList[GEO_MODEL7]->material.kAmbient.Set(1.0f, 1.0f, 1.0f);
+	meshList[GEO_MODEL7]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_MODEL7]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
+	meshList[GEO_MODEL7]->material.kShininess = 0.1f;
+
+	meshList[GEO_MODEL8]->material.kAmbient.Set(0.1f, 0.1f, 0.1f);
+	meshList[GEO_MODEL8]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
+	meshList[GEO_MODEL8]->material.kSpecular.Set(0.3f, 0.3f, 0.3f);
+	meshList[GEO_MODEL8]->material.kShininess = 0.1f;
 
 	meshList[GEO_QUAD]->material.kAmbient.Set(0.1f, 0.1f, 0.1f);
 	meshList[GEO_QUAD]->material.kDiffuse.Set(0.6f, 0.6f, 0.6f);
@@ -373,6 +398,20 @@ void SceneModel::Render()
 	modelStack.PopMatrix();
 
 	modelStack.PushMatrix();
+	//scale, translate,rotate
+	modelStack.Translate(10, 10, 0);
+	modelStack.Scale(15, 15, 15);
+	RenderMesh(meshList[GEO_MODEL7], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
+	//scale, translate,rotate
+	modelStack.Translate(25, 10, 0);
+	modelStack.Scale(.5, .5, .5);
+	RenderMesh(meshList[GEO_MODEL8], true);
+	modelStack.PopMatrix();
+
+	modelStack.PushMatrix();
 	modelStack.Translate(light[0].position.x, light[0].position.y, light[0].position.z);
 	RenderMesh(meshList[GEO_LIGHTBALL], false);
 	modelStack.PopMatrix();
@@ -386,46 +425,57 @@ void SceneModel::Render()
 	RenderMesh(meshList[GEO_SPHERE], true);
 	modelStack.PopMatrix();*/
 
-	modelStack.PushMatrix();
-	//scale, translate,rotate
-	modelStack.Translate(10, 10, 0);
-	RenderMesh(meshList[GEO_MODELCHAIR], true);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	//scale, translate,rotate
-	modelStack.Translate(-10, 0, 0);
-	modelStack.Scale(3, 3, 3);
-	RenderMesh(meshList[GEO_MODELDMAN], true);
-	modelStack.PopMatrix();
-
-	modelStack.PushMatrix();
-	//scale, translate,rotate
-	modelStack.Translate(5, 0, 0);
-	RenderMesh(meshList[GEO_MODELDART], true);
-	modelStack.PopMatrix();
+	//modelStack.PushMatrix();
+	////scale, translate,rotate
+	//modelStack.Translate(10, 10, 0);
+	//RenderMesh(meshList[GEO_MODELCHAIR], true);
+	//modelStack.PopMatrix();
 
 
-	modelStack.PushMatrix();
-	//scale, translate,rotate
-	modelStack.Translate(10, 5 , 0);
-	RenderMesh(meshList[GEO_MODELSHOE], true);
-	modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	//scale, translate,rotate
-	modelStack.Translate(10, 5, 0);
-	modelStack.Rotate(-90, 0, 1, 0);
-	RenderMesh(meshList[GEO_MODELDBOARD], true);
-	modelStack.PopMatrix();
+	//modelStack.PushMatrix();
+	////scale, translate,rotate
+	//modelStack.Translate(10, 10, 0);
+	//modelStack.Scale(15, 15, 15);
+	//RenderMesh(meshList[GEO_MODEL8], true);
+	//modelStack.PopMatrix();
 
-	modelStack.PushMatrix();
-	//scale, translate,rotate
-	modelStack.Translate(-10, 5, 0);
-	RenderMesh(meshList[GEO_MODELWINE], true);
-	modelStack.PopMatrix();
+	//modelStack.PushMatrix();
+	////scale, translate,rotate
+	//modelStack.Translate(-10, 0, 0);
+	//modelStack.Scale(3, 3, 3);
+	//RenderMesh(meshList[GEO_MODELDMAN], true);
+	//modelStack.PopMatrix();
+
+	//modelStack.PushMatrix();
+	////scale, translate,rotate
+	//modelStack.Translate(5, 0, 0);
+	//RenderMesh(meshList[GEO_MODELDART], true);
+	//modelStack.PopMatrix();
+
+
+	//modelStack.PushMatrix();
+	////scale, translate,rotate
+	//modelStack.Translate(10, 5 , 0);
+	//RenderMesh(meshList[GEO_MODELSHOE], true);
+	//modelStack.PopMatrix();
+
+	//modelStack.PushMatrix();
+	////scale, translate,rotate
+	//modelStack.Translate(10, 5, 0);
+	//modelStack.Rotate(-90, 0, 1, 0);
+	//RenderMesh(meshList[GEO_MODELDBOARD], true);
+	//modelStack.PopMatrix();
+
+	//modelStack.PushMatrix();
+	////scale, translate,rotate
+	//modelStack.Translate(-10, 5, 0);
+	//RenderMesh(meshList[GEO_MODELWINE], true);
+	//modelStack.PopMatrix();
+
 
 	RenderSkybox();
+
 
 	
 }
